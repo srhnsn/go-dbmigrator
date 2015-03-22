@@ -1,0 +1,8 @@
+CREATE TABLE `role` (
+    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `key` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `key` (`key`)
+)
+ENGINE=InnoDB;
