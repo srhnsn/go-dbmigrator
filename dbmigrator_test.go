@@ -161,6 +161,15 @@ func TestIncrementalMigration(t *testing.T) {
 	}
 }
 
+func TestEmptyMigrator(t *testing.T) {
+	_, err := getEmptyTestMigrator()
+
+	if err != ErrNoMigrationFiles {
+		t.Errorf("getEmptyTestMigrator() should have returned ErrNoMigrationFiles, returned %s", err)
+		return
+	}
+}
+
 func createNewTestDatabase() {
 	db, err := sql.Open("mysql", testDSN)
 
@@ -218,4 +227,12 @@ func getTestMigrator() Migrator {
 	}
 
 	return migrator
+}
+
+func getEmptyTestMigrator() (Migrator, error) {
+	return NewMigrator(MigrationConfig{
+		DataSourceName: testDSNWithDatabase,
+		DriverName:     "mysql",
+		MigrationsPath: "test-assets", // No valid migration files there.
+	})
 }

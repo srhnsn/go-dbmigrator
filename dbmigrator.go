@@ -29,6 +29,10 @@ const versionKey = "migration_version"
 // the migration version.
 var ErrCorruptDatabase = errors.New("failed to retrieve migration version from setting table (database not empty)")
 
+// ErrNoMigrationFiles is returned when there are no files in the directory
+// that match the required filename pattern.
+var ErrNoMigrationFiles = errors.New("migration directory does not contain any valid migration files")
+
 var filenamePattern = regexp.MustCompile(`^([0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9] [0-2][0-9][0-5][0-9][0-5][0-9]) (.*)\.sql$`)
 
 // MigrationConfig contains the configuration for the migrator.
@@ -179,6 +183,10 @@ func NewMigrator(config MigrationConfig) (Migrator, error) {
 
 	if err != nil {
 		return Migrator{}, err
+	}
+
+	if len(migrations) == 0 {
+		return Migrator{}, ErrNoMigrationFiles
 	}
 
 	migrator := Migrator{
