@@ -129,7 +129,7 @@ func (m *Migrator) Migrate() error {
 
 	if empty {
 		if !m.config.Quiet {
-			fmt.Println("Empty database, creating setting table and applying all migrations.")
+			//fmt.Println("Empty database, creating setting table and applying all migrations.")
 		}
 
 		createSettingTable(db, m.config.SettingTableCreateStatement)
@@ -154,7 +154,7 @@ func (m *Migrator) Migrate() error {
 
 	for _, migration := range migrations {
 		if !m.config.Quiet {
-			fmt.Printf("Applying %s\n", migration.basename)
+			//fmt.Printf("Applying %s\n", migration.basename)
 		}
 
 		err := migration.apply(db, readFile)
